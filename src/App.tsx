@@ -1,8 +1,22 @@
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Home, Sidebar, FizzBuzz, Error404 } from "./pages";
+
 function App() {
 	return (
-		<>
-			<h1 className='text-4x1 text-red-500'>Homepage</h1>
-		</>
+		<BrowserRouter>
+			<div className='flex h-screen'>
+				<div>
+					<Sidebar />
+				</div>
+				<div>
+					<Routes>
+						<Route path='/' element={<Home />} />
+						<Route path='/fizz-buzz' element={<FizzBuzz />} />
+						<Route path='*' element={<Error404 />} />
+					</Routes>
+				</div>
+			</div>
+		</BrowserRouter>
 	);
 }
 
