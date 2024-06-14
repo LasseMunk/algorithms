@@ -7,10 +7,10 @@ export type SidebarLinkProps = {
 
 export const SidebarLink = (props: SidebarLinkProps) => {
 	const { route, text } = props;
-    
+
 	return (
 		<Link to={route}>
-			<li className='text-gray-200 text-sm flex items-center gap-x-4 p-2 rounded-md mt-2 hover:bg-gray-400'>
+			<li className='text-gray-200 text-sm flex items-center gap-x-4 p-2 rounded-md mt-2 mx-2 hover:bg-gray-200 hover:text-gray-500'>
 				<span>{text}</span>
 			</li>
 		</Link>

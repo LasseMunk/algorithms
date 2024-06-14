@@ -1,23 +1,28 @@
 import { useState } from "react";
-import { SidebarLink } from "./components";
+import { SidebarLink, SidebarLinkProps } from "./components";
 
 export const Sidebar = () => {
-	const [linkSearchText, setLinkSearchText] = useState("");
+	const routes: SidebarLinkProps[] = [{ route: "/fizz-buzz", text: "fizz-buzz" }];
 
+	const [linkSearchText, setLinkSearchText] = useState("");
+	const [filteredRoutes, setFilteredRoutes] = useState(routes);
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setLinkSearchText(e.target.value);
+		setFilteredRoutes(routes.filter((route) => route.text.toLowerCase().includes(e.target.value.toLowerCase())));
 	};
 
 	return (
-		<div className='flex flex-col'>
-			<div className='bg-primary h-screen text-ternary  w-72'>
-				<h1 className='text-gray-200 text-3xl p-2'>algorithms</h1>
-				<input type='text' placeholder='search..' value={linkSearchText} onChange={handleInputChange} className='bg-gray-200 text-gray-500 p-2 rounded-lg w-11/12 m-2 focus:outline-none' />
-				<ul className='pt-2'>
-					<SidebarLink route='/' text='home' />
-					<SidebarLink route='/fizz-buzz' text='fizz-buzz' />
-				</ul>
-			</div>
+		<div className='bg-primary flex flex-col h-screen text-ternary p-2 w-72 gap-2'>
+			<h1 className='text-gray-100 text-3xl'>algorithms</h1>
+			<input type='text' placeholder='search..' value={linkSearchText} onChange={handleInputChange} className='bg-gray-200 text-gray-500 p-2 rounded-lg width-full focus:outline-none' />
+			<ul>
+				<SidebarLink route={"/"} text={"home"} />
+				{filteredRoutes.length > 0 ? (
+					filteredRoutes.map((route, index) => <SidebarLink key={index} route={route.route} text={route.text} />)
+				) : (
+					<SidebarLink route={"/"} text={"no algorithms found"} />
+				)}
+			</ul>
 		</div>
 	);
 };

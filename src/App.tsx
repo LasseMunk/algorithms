@@ -8,7 +8,7 @@ function App() {
 				<div>
 					<Sidebar />
 				</div>
-				<div>
+				<div className='bg-gray-100 flex-1 p-4'>
 					<Routes>
 						<Route path='/' element={<Home />} />
 						<Route path='/fizz-buzz' element={<FizzBuzz />} />
