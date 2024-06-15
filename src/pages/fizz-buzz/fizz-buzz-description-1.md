@@ -1,9 +1,6 @@
 **FizzBuzz** is a program that **prints the numbers from 1 to n**
-
 For multiples of 3 - it prints “Fizz” instead of the number
-
 For the multiples of 5 - it prints “Buzz”
-
 For numbers which are multiples of both 3 and 5 - it prints “FizzBuzz”
 
 ```typescript

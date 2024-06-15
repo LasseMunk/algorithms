@@ -9,10 +9,7 @@ export default {
 				ternary: "#38A3A5",
 			},
 		},
-		fontFamily: {
-			// Define a custom name for your font family if desired
-			courierNew: ["Courier New", "Courier", "Lucida Sans Typewriter", "Lucida Typewriter", "monospace"],
-		},
+
 		lineHeight: {
 			custom: 2.2, // Custom line-height
 		},

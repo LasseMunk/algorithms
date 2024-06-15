@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { Button } from "../components";
-import Markdown from "react-markdown";
+import { Divider, InputInteger, MarkdownWrapper } from "../components";
 import description from "./fizz-buzz-description-1.md?raw";
-import { Light as SyntaxHighlighter } from "react-syntax-highlighter";
-import { github as colorStyle } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 export const FizzBuzz = () => {
 	const [fizzBuzz, setFizzBuzz] = useState<string[]>([]);
+	const [iterations, setIterations] = useState<number>(0);
+	const [markdownContent] = useState<string>(description);
 
 	const calculateFizzBuzz = (iterations: number) => {
 		const fb = [];
@@ -29,36 +28,29 @@ export const FizzBuzz = () => {
 		setFizzBuzz(fb);
 	};
 
-	const [markdownContent] = useState(description);
 	useEffect(() => {
-		console.log(markdownContent);
-	}, [markdownContent]);
+		calculateFizzBuzz(iterations);
+	}, [iterations]);
+
+	const handleInputChange = (value: number) => {
+		const clampedInput = Math.min(Math.max(value, 0), 100);
+		setIterations(clampedInput);
+	};
+
 	return (
-		<div className='flex flex-col h-full gap-4'>
-			<Markdown
-				// remarkPlugins={[remarkMath]}
-				// rehypePlugins={[rehypeKatex]}
-				className='font-courierNew whitespace-pre-wrap'
-				components={{
-					code(props) {
-						const { children, className, ...rest } = props;
-						const match = /language-(\w+)/.exec(className || "");
-						return match ? (
-							<SyntaxHighlighter PreTag='div' children={String(children).replace(/\n$/, "")} language={match[1]} style={colorStyle} />
-						) : (
-							<code {...rest} className={className}>
-								{children}
-							</code>
-						);
-					},
-				}}
-			>
-				{markdownContent}
-			</Markdown>
-			<Button text='output fizzbuzz result' onClick={() => calculateFizzBuzz(0)} />
-			<div className='flex flex-col overflow-y-auto'>
+		<div className='flex flex-col h-full gap-4 overflow-y-auto'>
+			<MarkdownWrapper markdownContent={markdownContent} />
+			<Divider />
+			<div className='flex flex-row gap-4 items-center'>
+				<InputInteger value={iterations} setValue={handleInputChange} />
+				<p>Enter a number between 1 - 100 to calculate FizzBuzz</p>
+				<Divider />
+			</div>
+			<div className='flex flex-col  '>
 				{fizzBuzz.map((item, index) => (
-					<p key={index}>{item}</p>
+					<p key={index} className={item === "Fizz" || item === "Buzz" || item === "FizzBuzz" ? "text-primary" : ""}>
+						{item}
+					</p>
 				))}
 			</div>
 		</div>
