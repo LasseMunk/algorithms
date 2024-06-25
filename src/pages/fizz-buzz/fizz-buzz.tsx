@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Divider, InputInteger, MarkdownWrapper } from "../components";
+import { Divider, InputInteger, MarkdownWrapper } from "../../components";
 import description from "./fizz-buzz-description-1.md?raw";
 
 export const FizzBuzz = () => {

@@ -1,7 +1,9 @@
+import { ThreePointsWave } from "../../three-js";
+
 export const Home = () => {
 	return (
 		<div>
-			<h1>Home</h1>
+			<ThreePointsWave />
 		</div>
 	);
 };
