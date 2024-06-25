@@ -3,7 +3,7 @@ import { Home, Sidebar, FizzBuzz, Error404 } from "./pages";
 
 function App() {
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename='/algorithms'>
 			<div className='flex h-screen'>
 				<div>
 					<Sidebar />
