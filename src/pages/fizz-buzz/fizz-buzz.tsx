@@ -38,7 +38,7 @@ export const FizzBuzz = () => {
 	};
 
 	return (
-		<div className='flex flex-col h-full gap-4 overflow-y-auto'>
+		<div className='flex flex-col h-full gap-4 overflow-y-auto is-algorithm'>
 			<MarkdownWrapper markdownContent={markdownContent} />
 			<Divider />
 			<div className='flex flex-row gap-4 items-center'>

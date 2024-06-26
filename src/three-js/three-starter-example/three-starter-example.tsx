@@ -11,7 +11,7 @@ export const ThreeStarterExample = () => {
 		const [clicked, click] = useState(false);
 		// Rotate mesh every frame, this is outside of React without overhead
 		// eslint-disable-next-line @typescript-eslint/no-unused-vars
-		useFrame((state, delta) => (ref.current.rotation.x += 0.01));
+		useFrame(() => (ref.current.rotation.x += 0.01));
 
 		return (
 			<mesh {...props} ref={ref} scale={clicked ? 1.5 : 1} onClick={() => click(!clicked)} onPointerOver={() => hover(true)} onPointerOut={() => hover(false)}>

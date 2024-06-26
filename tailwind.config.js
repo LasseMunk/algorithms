@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 export default {
 	content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 	theme: {
@@ -9,12 +8,11 @@ export default {
 				ternary: "#38A3A5",
 			},
 		},
-
 		lineHeight: {
-			custom: 2.2, // Custom line-height
+			custom: 2.2,
 		},
 		fontWeight: {
-			custom: 400, // Custom font-weight
+			custom: 400,
 		},
 	},
 	plugins: [],

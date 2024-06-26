@@ -15,3 +15,9 @@
 		margin: 0;
 	}
 }
+
+@layer utilities {
+	.is-algorithm {
+		padding: 16px;
+	}
+}
