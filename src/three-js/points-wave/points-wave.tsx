@@ -1,7 +1,5 @@
-import { Canvas } from "@react-three/fiber";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import Stats from "three/addons/libs/stats.module.js";
 
 export const ThreePointsWave = () => {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -10,28 +8,23 @@ export const ThreePointsWave = () => {
 		AMOUNTX = 50,
 		AMOUNTY = 50;
 
-	let container, stats: Stats;
-	let camera: THREE.PerspectiveCamera, scene: THREE.Scene, renderer: THREE.WebGLRenderer;
+	let container: HTMLDivElement, camera: THREE.PerspectiveCamera, scene: THREE.Scene, renderer: THREE.WebGLRenderer;
 
 	let particles: THREE.Points,
 		count = 0;
+	const speed = 0.01;
 
-	let mouseX = 0,
-		mouseY = 0;
+	// const pointColor = 0xff6363;
+	const pointColor = 0xffdddd;
+	const backgroundColor = 0xf3f4f6;
 
-	let windowHalfX = window.innerWidth / 2;
-	let windowHalfY = window.innerHeight / 2;
-
-	useEffect(() => {
-		init();
-	}, []);
+	let width = 1632;
+	let height = 911;
 
 	const init = () => {
 		container = document.createElement("div");
 
-		containerRef.current?.appendChild(container);
-
-		camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+		camera = new THREE.PerspectiveCamera(75, width / height, 1, 10000);
 		camera.position.z = 1000;
 
 		scene = new THREE.Scene();
@@ -88,7 +81,7 @@ export const ThreePointsWave = () => {
 
 		const material = new THREE.ShaderMaterial({
 			uniforms: {
-				color: { value: new THREE.Color(0xffffff) },
+				color: { value: new THREE.Color(pointColor) },
 			},
 			vertexShader,
 			fragmentShader,
@@ -103,44 +96,59 @@ export const ThreePointsWave = () => {
 
 		renderer = new THREE.WebGLRenderer({ antialias: true });
 		renderer.setPixelRatio(window.devicePixelRatio);
-		renderer.setSize(window.innerWidth, window.innerHeight);
-		renderer.setAnimationLoop(animate);
-		container.appendChild(renderer.domElement);
 
-		stats = new Stats();
-		container.appendChild(stats.dom);
+		renderer.setSize(width, height);
+		renderer.setClearColor(backgroundColor);
+		renderer.setAnimationLoop(animate);
+		containerRef.current?.appendChild(renderer.domElement);
+
+		// stats = new Stats();
+		// container.appendChild(stats.dom);
 
 		container.style.touchAction = "none";
-		container.addEventListener("pointermove", onPointerMove);
+		// container.addEventListener("pointermove", onPointerMove);
 
 		window.addEventListener("resize", onWindowResize);
 	};
 
-	const onWindowResize = () => {
-		windowHalfX = window.innerWidth / 2;
-		windowHalfY = window.innerHeight / 2;
+	const kill = () => {
+		window.removeEventListener("resize", onWindowResize);
+		// container.removeEventListener("pointermove", onPointerMove);
+		renderer.domElement.remove();
+	};
 
-		camera.aspect = window.innerWidth / window.innerHeight;
+	useEffect(() => {
+		init();
+
+		return () => {
+			kill();
+		};
+	});
+
+	const onWindowResize = () => {
+		// Ensure the container is in the DOM before accessing its dimensions
+		width = container.clientWidth; // Subtract padding to get actual content width
+		height = container.clientHeight; // Adjust height similarly if needed
+		camera.aspect = width / height;
 		camera.updateProjectionMatrix();
 
-		renderer.setSize(window.innerWidth, window.innerHeight);
+		renderer.setSize(width, height);
 	};
 
-	const onPointerMove = (event: { isPrimary: boolean; clientX: number; clientY: number }) => {
-		if (event.isPrimary === false) return;
+	// const onPointerMove = (event: { isPrimary: boolean; clientX: number; clientY: number }) => {
+	// 	if (event.isPrimary === false) return;
 
-		mouseX = event.clientX - windowHalfX;
-		mouseY = event.clientY - windowHalfY;
-	};
+	// 	mouseX = event.clientX - windowHalfX;
+	// 	mouseY = event.clientY - windowHalfY;
+	// };
 
 	const animate = () => {
 		render();
-		stats.update();
 	};
 
 	const render = () => {
-		camera.position.x += (mouseX - camera.position.x) * 0.05;
-		camera.position.y += (-mouseY - camera.position.y) * 0.05;
+		camera.position.x = 75;
+		camera.position.y = 250;
 		camera.lookAt(scene.position);
 
 		const positions = particles.geometry.attributes.position.array;
@@ -165,8 +173,8 @@ export const ThreePointsWave = () => {
 
 		renderer.render(scene, camera);
 
-		count += 0.1;
+		count += speed;
 	};
 
-	return <div ref={containerRef} style={{ width: "100%", height: "100%" }} />;
+	return <div id='threePointsWaveRef' ref={containerRef} style={{ width: "100%", height: "100%", overflow: "hidden" }} />;
 };
